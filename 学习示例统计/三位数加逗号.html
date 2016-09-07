@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="apple-mobile-web-app-capable" content="yes" /><!-- 删除苹果默认的工具栏和菜单栏 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" /><!-- 设置苹果工具栏颜色 -->
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<!--忽略页面中的数字识别为电话，忽略email识别 -->
+
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+	/*
+	*方法一
+	*/ 
+
+	var cutStr = function(str){ 
+
+	  var newStr= new Array(str.length+ parseInt(str.length/3)); 
+
+	  newStr[newStr.length-1]=str[str.length-1];  
+	  var currentIndex=str.length-1;  
+	  for(var i = newStr.length-1;i >= 0;i--)  
+	  {  
+	    if((newStr.length-i)%4==0)  
+	    {  
+	      newStr[i]=",";  
+	    } 
+	    else
+	    {  
+	      newStr[i]=str[currentIndex--];  
+	    }  
+	  }  
+	  return newStr.join("");  
+	};  
+	var num="1500000000000"; 
+	console.log(cutStr(num));//用法
+
+
+	/*
+	*方法二
+	*/ 
+	// function cutStr(str){ 
+	//     var rmb=''; 
+	//     var i2=0; 
+	//     for(var i=str.length-1; i>=0; i--){ 
+
+	//         if(i%3==0&&i!=0){ 
+	//             rmb+=str[i2]+','; 
+	//         }else{ 
+	//             rmb+=str[i2]; 
+	//         } 
+	//         i2++; 
+	//     } 
+	//     return rmb; 
+	// }
+	// var num="1500000000000";  
+	// console.log(cutStr(num));//用法
+
+	/*
+	*方法三
+	*/ 
+
+	// function cutStr(num) { 
+	//     var aaa = num.toString(); 
+	//     var arr1 = aaa.split(""); 
+	//     var arr2 = []; 
+	//     for (var i = 0; i < arr1.length;) { 
+
+	//         for (j = 0; j < 3; j++) { 
+
+	//             arr2.unshift(arr1[i]); 
+	//             i++; 
+	//             if (j == 2 && i < arr1.length) { 
+	//                 arr2.unshift(","); 
+	//             } 
+	//         } 
+	//     } 
+
+	//   return arr2.join(""); 
+	// } 
+	// cutStr(12345678);//用法
+	// console.log(cutStr(12345678));
+	/*
+	*方法四
+	*/ 
+
+	// function formatNumber(value) { 
+	//     value = value.toString(); 
+	//     if (value.length <= 3) { 
+	//         return value; 
+	//     } else { 
+	//         return formatNumber(value.substr(0, value.length - 3)) + ',' + value.substr(value.length - 3); 
+	//     } 
+	// }   
+	// console.log(formatNumber(12345678)); //用法
+
+	/*
+	*方法五
+	*/ 
+
+	//var str = '12312321131200000'.replace(/(?=(?!^)(?:\d{3})+(?:\.|$))(\d{3}(\.\d+$)?)/g,',$1'); 
+	//console.log(str); 
+</script>
+</body>
+</html>
