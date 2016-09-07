@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="apple-mobile-web-app-capable" content="yes" /><!-- 删除苹果默认的工具栏和菜单栏 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" /><!-- 设置苹果工具栏颜色 -->
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<!--忽略页面中的数字识别为电话，忽略email识别 -->
+	<link rel="stylesheet" href="css/global.css">
+</head>
+<body id="member_header">
+	<div class="div1">
+		<canvas id='main' width="600" height="600" ></canvas>
+		<button id="button">点击</button>
+	</div>
+	<script type="text/javascript">
+
+		window.onload=function(){
+
+			var cricle = function () {
+				this.main = document.getElementById('main');
+				this.cxt  = this.main.getContext('2d');
+				this.ArryData = [
+					{name:'其他',dataNbm:12.27,setColor:'#5b9bd5',startAngle: 0,endAngle:0,setcenter:0},
+					{name:'闪利宝',dataNbm:32.34,setColor:'#ed7d31',startAngle: 0,endAngle:0,setcenter:0},
+					{name:'天添牛plus92天',dataNbm:14.67,setColor:'#a5a5a5',startAngle: 0,endAngle:0,setcenter:0},
+					{name:'活动特供标',dataNbm:26.97,setColor:'#ffc000',startAngle: 0,endAngle:0,setcenter:0},
+					{name:'天添牛plus183天',dataNbm:13.75,setColor:'#4472c4',startAngle: 0,endAngle:0,setcenter:0}
+				];	
+				this.init();
+			};
+
+			cricle.prototype.init = function(){
+
+				this.Agle = 0;
+				this.Dot  ={X:200,Y:100,R:50}; //圆心 ,半径
+				this.DegreeX      = 0;
+				this.DegreeY      = 0;
+				this.DegreeX2     = 0;
+				this.DegreeY2     = 0;
+
+				var _this = this;
+
+				var tiemr =	setInterval(function(){
+					_this.ClacData();
+					if(_this.Agle>2*Math.PI){
+						clearInterval(tiemr);
+					}
+					_this.Agle+= 1/(1*(1000/60));
+				},1000/60);
+			};
+
+			cricle.prototype.Draw = function(startAngle,endAngle,setColor){
+				
+				this.cxt.beginPath();
+				this.cxt.lineWidth = 10;
+				this.cxt.strokeStyle=setColor;
+				this.cxt.arc(this.Dot.X,this.Dot.Y,this.Dot.R,startAngle,endAngle,false);
+				this.cxt.stroke();
+
+			};
+
+			cricle.prototype.ClacData=function(){
+				this.cxt.clearRect(0,0,600,600);
+				var ADlen 	= this.ArryData.length;
+				var Gerelut = this.ArryData;
+				
+				for(var i=0; i < ADlen; i++){
+
+					if( i == 0 ) {
+						Gerelut[i].startAngle = -.5*Math.PI;
+					}else{
+						Gerelut[i].startAngle = Gerelut[i-1].endAngle;
+					}
+					Gerelut[i].endAngle  = Gerelut[i].startAngle + this.Agle*(Gerelut[i].dataNbm/100);
+					Gerelut[i].setcenter = (Gerelut[i].endAngle-Gerelut[i].startAngle)/2+Gerelut[i].startAngle;
+
+					var nmbCos = Math.cos( Gerelut[i].setcenter );
+					var nmbSin = Math.sin( Gerelut[i].setcenter );
+
+					this.DegreeX = this.Dot.X+nmbCos*this.Dot.R;
+					this.DegreeY = this.Dot.Y+nmbSin*this.Dot.R;
+
+					this.DegreeX2 = this.Dot.X+nmbCos*(this.Dot.R+16);
+					this.DegreeY2 = this.Dot.Y+nmbSin*(this.Dot.R+16);
+
+					this.Draw( Gerelut[i].startAngle,Gerelut[i].endAngle,Gerelut[i].setColor );
+					this.markerLine(this.DegreeX,this.DegreeY,this.DegreeX2,this.DegreeY2,Gerelut[i].setColor);
+					this.writtenText(this.DegreeX2,this.DegreeY2,Gerelut[i].setColor,Gerelut[i].name,Gerelut[i].dataNbm);
+				}	
+
+			};
+
+			cricle.prototype.markerLine=function(x,y,x2,y2,setColor){
+				
+				this.cxt.beginPath();
+				this.cxt.strokeStyle = setColor;
+				this.cxt.lineWidth = 1;
+				this.cxt.moveTo(x,y);
+	        	this.cxt.lineTo(x2,y2);
+	        	if(x>this.Dot.X){
+	        		this.cxt.lineTo(x2+16,y2);
+	        	}else{
+	        		this.cxt.lineTo(x2-16,y2);
+	        	}
+				this.cxt.stroke();
+			};
+
+			cricle.prototype.writtenText=function(x,y,setColor,name,dataNbm){
+				this.cxt.textAlign = 'left';
+				this.cxt.font = 'bold 12px consolas';
+		        this.cxt.textBaseline = 'middle';
+		        this.cxt.fillStyle = setColor;
+		        this.cxt.lineWidth = 1;
+		        var w=this.cxt.measureText(name);
+		        if(x > this.Dot.X ){
+		        	this.cxt.fillText(name,x+30,y);
+		        	this.cxt.fillText(dataNbm,x+30,y+16);
+		        }else{
+					this.cxt.fillText(name,x-w.width-30,y);
+					this.cxt.fillText(dataNbm,x-w.width-30,y+16);
+				}
+			};
+			var cricleTo = new cricle();
+
+
+			var btn = document.getElementById('button');
+			btn.onclick = function(){
+				cricleTo.init();
+			};
+
+
+		};
+	</script>
+</body>
+</html>
