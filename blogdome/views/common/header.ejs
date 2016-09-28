@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
+  <script charset="utf-8" src="/kindeditor/kindeditor-min.js"></script>
+  <script charset="utf-8" src="/kindeditor/lang/zh_CN.js"></script>
+</head>
+<body>
+  <!-- 导航 -->
+  <div class="navbar bg-hd navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">LOGO</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">首页</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown"><a href="#">Dropdown</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" data-toggle="modal" data-target="#signinModal">登录</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#signupModal">注册</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  
+  <!-- 登录模态框 -->
+  <div id="signinModal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="POST" action="/user/signin">
+              <div class="modal-header">登录</div>
+              <div class="modal-body">
+                 <div class="form-group">
+                   <label for="signinName">用户名</label>
+                   <input type="text" id="signinName" class="form-control" name="">
+                 </div>
+                  <div class="form-group">
+                   <label for="signinPassword">密码</label>
+                   <input type="text" id="signinPassword" class="form-control" name="">
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>
+                   <button class="btn btn-success" type="submit">提交</button>
+                 </div>
+              </div>
+            </form>
+          </div>
+        </div>
+  </div>
+  <!-- 注册模态框 -->
+  <div id="signupModal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form method="POST" action="/user/signup">
+            <div class="modal-header">注册</div>
+            <div class="modal-body">
+               <div class="form-group">
+                 <label for="signupName">用户名</label>
+                 <input type="text" id="signupName" class="form-control" name="name">
+               </div>
+               <div class="form-group">
+                 <label for="signupPassword">密码</label>
+                 <input type="text" id="signupPassword" class="form-control" name="password">
+               </div>
+               <div class="form-group">
+                 <label for="signupPasswordRepeat">确认密码</label>
+                 <input type="text" id="signupPasswordRepeat" class="form-control" name="passwordRepeat">
+               </div>
+               <div class="form-group">
+                 <label for="signupEmeil">邮箱</label>
+                 <input type="text" id="signupEmeil" class="form-control" name="email">
+               </div>
+               <div class="modal-footer">
+                 <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>
+                 <button class="btn btn-success" type="submit">提交</button>
+               </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  </div>

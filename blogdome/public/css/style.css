@@ -1,0 +1,11 @@
+
+.banner-box{margin-top:50px;}
+.jumbotron{text-align: center;height: 400px;margin-bottom: 0;background-color: #339999;color: #fff;}
+.bs-docs-booticon{font-size: 60px;width:120px;height:120px;line-height: 120px; border-radius: 8px; border:1px solid #fff;display: block;margin: 0 auto;}
+.projects-header{text-align: center;}
+.thumbnail{height: 334px;text-align: center;}
+.caption a:hover{text-decoration: none;}
+.caption p{height: 100px;overflow: hidden;}
+.projects{margin-top: 50px;}
+.modal-footer{border-top: none;}
+.footer{padding: 48px;background-color: #202020;color: #fff;margin-top: 20px;}
