@@ -5,6 +5,7 @@ var ArticleSchema = new mongoose.Schema({
 	doctor:String,
 	summary:String,
 	poster:String,
+  describe:String,
 	year:Number,
 	meta: {
     createAt: {
