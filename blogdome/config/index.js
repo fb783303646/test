@@ -27,7 +27,7 @@ module.exports = function(app) {
 
   });
 
-   //注册
+  //注册
   app.post('/user/signup', function (req, res) {
   });	
   //登录
@@ -88,11 +88,10 @@ module.exports = function(app) {
       console.log('这个ID是：'+getData.Id);
 
       if(getData.Id){
-
-        console.log('说明有这条数据，要执行更新保存');
+        
         Article.findById(getData.Id,function(err,article){
-          _Article = _.
-          Article.save(function(err,article){
+          _Article = _.extend(article,getData);
+          _Article.save(function(err,article){
             if(err){
               console.log("err"+err);
             }else{  
@@ -102,10 +101,8 @@ module.exports = function(app) {
 
        }); 
       }else{
-        //看看内容是否重复，重复就 
-        //if(){}
+      
         console.log('说明my这条数据,就执行存储');
-        //console.log(getData.title);
 
         _Article = new Article(getData);
         _Article.save(function(err,article){
@@ -140,5 +137,22 @@ module.exports = function(app) {
       }
   });
 
+  // 删除数据
+  app.delete('/delete', function (req, res) {
+    var id = req.query.id;
+    console.log("删除的id"+id);
+    if (id) {
+      Article.remove({_id: id}, function(err, article) {
+        if (err) {
+          console.log(err);
+          res.json({success: 0});
+        }
+        else {
+          res.json({success: 1});
+        }
+      });
+    }
+
+  });
 
 };

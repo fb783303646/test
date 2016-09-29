@@ -37,7 +37,9 @@
         <div class="panel-heading clearfix">
           <h3 class="pull-left">评论区</h3>
           <div class="pull-right">
-            <a class="btn btn-success pull-right" style="margin-top: 16px;" href="/editor/<%=id%>">修改</a>
+          <!--  <h3><span class="label label-default">发表：2016-12-12</span></h3> -->
+            <a class="btn btn-warning" style="margin-top: 16px;"  data-id="<%=id%>" >删除</a>
+            <a class="btn btn-success" style="margin-top: 16px;"  href="/editor/<%=id%>">修改</a>
           </div>
         </div>
         <div class="panel-body">
@@ -75,5 +77,22 @@
 
     </div>
   </div>
+
+  <script type="text/javascript">
+      
+      $('.btn').click(function(){
+
+          var id = $(this).attr('data-id');
+          $.ajax({
+            type: 'DELETE',
+            url: '/delete?id=' + id,
+            success:function(data){
+              window.location.href="/"; 
+            }
+          });
+
+      });
+
+  </script>
 
 <%- include ./common/footer %>
