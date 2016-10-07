@@ -1,17 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
-var ArticleSchema = Schema({
-	title:String,
-	doctor:String,
-	summary:String,
-	poster:String,
-  describe:String,
-	year:Number,
-  RelationId:{
-    type: ObjectId,
-    ref: 'user'
-  },
+var CommentSchema = new Schema({
+	article:{type:ObjectId,ref:"article"},
+  from:{type:ObjectId,ref:"user"},
+  to:{type:ObjectId,ref:"user"},
+  content:String,
 	meta: {
     createAt: {
       type: Date,
@@ -25,7 +19,7 @@ var ArticleSchema = Schema({
 });
 
 
-ArticleSchema.pre('save', function(next) {
+CommentSchema.pre('save', function(next) {
 	
   if (this.isNew) {
     this.meta.createAt = this.meta.updateAt = Date.now();
@@ -37,7 +31,7 @@ ArticleSchema.pre('save', function(next) {
   next();
 });
 
-ArticleSchema.statics = {
+CommentSchema.statics = {
   fetch: function(cb) {
     return this
       .find({},null,{ sort: { _id: -1} })
@@ -52,4 +46,4 @@ ArticleSchema.statics = {
 };
 
 
-module.exports = ArticleSchema;
+module.exports = CommentSchema;
