@@ -1,0 +1,26 @@
+<%- include ./common/header %>
+ 
+  <div class="container projects">
+    <div class="row" style="padding:100px 0 200px 0;;">
+        <div class="col-md-4">
+          <form method="POST" action="/user/signin">
+                <div class="modal-header"><%=title%></div>
+                <div class="modal-body">
+                   <div class="form-group">
+                     <label for="signinName">用户名</label>
+                     <input type="text" id="signinName" class="form-control" name="name">
+                   </div>
+                    <div class="form-group">
+                     <label for="signinPassword">密码</label>
+                     <input type="text" id="signinPassword" class="form-control" name="password">
+                   </div>
+                   <div class="modal-footer">
+                     <button class="btn btn-success" type="submit">登录</button>
+                   </div>
+                </div>
+          </form>
+        </div>
+    </div>
+  </div>
+  
+<%- include ./common/footer %>

@@ -32,13 +32,20 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">首页</a></li>
-            <li><a href="/admin">发表文章</a></li>
+             <% if(user){ %>
+               <li><a href="/admin">发表文章</a></li>
+            <%}%>
             <li><a href="#">Contact</a></li>
             <li class="dropdown"><a href="#">Dropdown</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <% if(user){ %>
+              <li><a href="javascript:;" >欢迎您<%=user.name%></a></li>
+              <li><a href="/logout">退出</a></li>
+            <%}else{%>
             <li><a href="#" data-toggle="modal" data-target="#signinModal">登录</a></li>
             <li><a href="#" data-toggle="modal" data-target="#signupModal">注册</a></li>
+            <%}%>
           </ul>
         </div>
       </div>
@@ -54,11 +61,11 @@
               <div class="modal-body">
                  <div class="form-group">
                    <label for="signinName">用户名</label>
-                   <input type="text" id="signinName" class="form-control" name="">
+                   <input type="text"  class="form-control" name="name">
                  </div>
                   <div class="form-group">
                    <label for="signinPassword">密码</label>
-                   <input type="text" id="signinPassword" class="form-control" name="">
+                   <input type="text"  class="form-control" name="password">
                  </div>
                  <div class="modal-footer">
                    <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>
@@ -84,13 +91,13 @@
                  <label for="signupPassword">密码</label>
                  <input type="text" id="signupPassword" class="form-control" name="password">
                </div>
-               <div class="form-group">
+               <!-- <div class="form-group">
                  <label for="signupPasswordRepeat">确认密码</label>
                  <input type="text" id="signupPasswordRepeat" class="form-control" name="passwordRepeat">
-               </div>
+               </div> -->
                <div class="form-group">
                  <label for="signupEmeil">邮箱</label>
-                 <input type="text" id="signupEmeil" class="form-control" name="email">
+                 <input type="text" class="form-control" name="email">
                </div>
                <div class="modal-footer">
                  <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>

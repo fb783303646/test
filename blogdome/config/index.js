@@ -1,158 +1,44 @@
+var Index = require('../controllers/index')
+var User = require('../controllers/user')
+var Article = require('../controllers/article');
 
-//var mongoose = require('mongoose');
-
-//var User = require('../models/user');
-var Article = require('../models/article');
-
-var _ = require('underscore');
+//var _ = require('underscore');
 
 module.exports = function(app) {
   
-  //首页
-  app.get('/', function (req, res) {
+  //pre handle user
+  app.use(function(req,res,next){
 
-    Article
-      .find({},null,{ sort: { _id: -1} }).populate('article')
-      .exec(function(err, articles) {
-        if (err) {
-          console.log(err);
-        }
-        res.render('index', {
-          title: '首页',
-          articles: articles
-        });
-        console.log("首页文章列表：");
-        console.log(articles);
-      }); 
+    var _user = req.session.user;
 
+      app.locals.user = _user;
+
+    next();
   });
 
+   //首页
+  app.get('/', Index.index);
+
+  //User
   //注册
-  app.post('/user/signup', function (req, res) {
-  });	
+  app.get('/signup', User.showSignup); 
+  app.post('/user/signup', User.signup); 
   //登录
-  app.post('/user/signin', function (req, res) {
-    res.render('signin', { title: '登录' });
-  });
+  app.get('/signin', User.showSignin);
+  app.post('/user/signin', User.signin);
+  //退出
+  app.get('/logout',User.logout);
 
+  //Article
   //详情
-  app.get('/detils/:id', function (req, res) {
-
-    var id = req.params.id;
-
-    Article.findById(id,function(err,article){
-        if(err){
-          console.log("err"+err);
-        }
-        res.render('detils', {
-          title: '详情',
-          summary:article.summary,
-          id:id
-        });
-        
-    });
-
-  });
-
+  app.get('/detils/:id', Article.detil);
   // 录入页面
-  app.get('/admin', function (req, res) {
-	    res.render('admin', {
-		    title: '后台录入页面',
-		    article:{
-  				title:"",
-  				doctor:"",
-  				summary:"",
-  				poster:"",
-          describe:"",
-  				year:""
-		    }
-		});
-  });
-
+  app.get('/admin', Article.admin);
   // 录入数据 
-  app.post('/admin/post', function (req, res) {
-   		
-   		var getData = {
-          Id:req.body._id[0],
-          title:req.body.title,
-          doctor:req.body.doctor,
-          summary:req.body.summary,
-          poster:req.body.poster,
-          describe:req.body.describe,
-          year:req.body.year
-      };
-   		var _Article;
-      console.log('这个body是：');
-      console.log(req.body);
-      console.log(getData);
-      console.log('这个ID是：'+getData.Id);
-
-      if(getData.Id){
-        
-        Article.findById(getData.Id,function(err,article){
-          _Article = _.extend(article,getData);
-          _Article.save(function(err,article){
-            if(err){
-              console.log("err"+err);
-            }else{  
-              res.redirect('/detils/'+article._id);
-            }
-          });
-
-       }); 
-      }else{
-      
-        console.log('说明my这条数据,就执行存储');
-
-        _Article = new Article(getData);
-        _Article.save(function(err,article){
-          if(err){
-            console.log("err"+err);
-          }else{  
-            res.redirect('/detils/'+article._id);
-          }
-        });
-
-      } 
-  });	
-
+  app.post('/admin/post', Article.adminPost); 
   // 更新修改
-  app.get('/editor/:id', function (req, res) {
-      var id = req.params.id;
-      console.log("我是"+id);
-
-      if(id){
-        Article.findById(id,function(err,article){
-          if(err){
-            console.log("err"+err);
-          }
-          res.render('admin', {
-            title: '更新修改',
-            article:article
-          });
-
-          console.log(article);
-
-        });
-      }
-  });
-
+  app.get('/editor/:id',Article.editor);
   // 删除数据
-  app.delete('/delete', function (req, res) {
-    var id = req.query.id;
-    console.log("删除的id"+id);
-    if (id) {
-      Article.remove({_id: id}, function(err, article) {
-        if (err) {
-          console.log(err);
-          res.json({success: 0});
-        }
-        else {
-          res.json({success: 1});
-        }
-      });
-    }
-
-  });
+  app.get('/delete/:id', Article.del);
 
 };
